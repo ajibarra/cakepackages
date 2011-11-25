@@ -24,5 +24,7 @@ $map = array(
 		'011_added_github_id' => 'M4e07b9c08ae44661bdc44a51cbdd56cb'),
 	12 => array(
 		'012_add_profiles_table' => 'M4e9e3bde9b604c4496f83dfacbdd56cb'),
+	13 => array(
+		'013_add_rating_fields_to_packages' => 'M4ed01f47a92c4db5bb92693675f6eb26'),
 );
 ?>

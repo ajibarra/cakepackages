@@ -9,6 +9,10 @@ class PackagesController extends AppController {
  * @link http://book.cakephp.org/view/959/Controller-Attributes
  */
 	public $name = 'Packages';
+	
+	public $components = array(
+		'Ratings.Ratings' => array('modelClass' => 'Package', 'update' => false, 'calculation' => 'sum'),
+	);
 
 /**
  * Default page for entire application
@@ -161,4 +165,29 @@ class PackagesController extends AppController {
 		$this->Sham->setMeta('canonical', '/' . $canonical . '/', array('escape' => false));
 	}
 
+/**
+ * This action takes the rating of a package and processes it
+ *
+ * @param string $id package id
+ * @param string "up" or "down"
+ * @return void
+ * @access public
+ */
+	public function rate($id = null, $direction = null) {
+		$this->Package->id = $id;
+		$package = $this->Package->find('first', array('conditions' => array('id' => $id), 'recursive' => -1));
+		$rating = ($direction == 'up') ? 1 : -1;
+		$redirect = $this->RequestHandler->prefers('json') ? false : $this->referer('/', true);
+		$this->RequestHandler->renderAs($this, 'json');
+	
+		$result = $this->Ratings->rate($id, $rating, $this->Auth->user('id'), $redirect);
+		if ($result) {
+			$this->set('status', 'success');
+			$this->set('message', __d('tv', 'Your vote was successfully recorded.', true));
+		} else {
+			$this->set('status', 'error');
+			$this->set('message', __d('tv', 'You have already voted on this package', true));
+		}
+		$this->set('result', $result);
+	}
 }

@@ -47,3 +47,17 @@
 			'time' => '+6 hours',
 		))); ?>
 </article>
+<div class="actions">
+<?php
+			echo $this->Html->link(
+				__('Like', true),
+				array('action' => 'rate', 'controller' => 'packages', 'plugin' => false, $package['Package']['id'], 'up'),
+				array('class' => 'rate up')
+			);
+			echo $this->Html->link(
+				__('Dont Like', true),
+				array('action' => 'rate', 'controller' => 'packages', 'plugin' => false, $package['Package']['id'], 'down'),
+				array('class' => 'rate down')
+			);
+		?>
+</div>
